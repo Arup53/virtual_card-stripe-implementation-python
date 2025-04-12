@@ -72,4 +72,18 @@ def update_card_status():
 )
     
     
-update_card_status()
+# update_card_status()
+
+def test_payment():
+    
+ authorization= stripe.issuing.Authorization.TestHelpers.create(
+  amount=100,
+  card=os.getenv("CARD_ID"),
+)
+ 
+ authorize_payment= stripe.issuing.Authorization.TestHelpers.capture(authorization.id)
+
+ print(authorize_payment);
+
+
+test_payment()
