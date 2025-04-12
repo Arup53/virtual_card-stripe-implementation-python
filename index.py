@@ -61,4 +61,15 @@ def accept_policy():
 
     print(policy_update)
 
-accept_policy()
+# accept_policy()
+
+
+# activate user card for transaction 
+def update_card_status():
+    activate= stripe.issuing.Card.modify(
+  os.getenv("CARD_ID"),
+  status="active",
+)
+    
+    
+update_card_status()
