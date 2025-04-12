@@ -1,11 +1,13 @@
 from dotenv import load_dotenv
 import stripe
 import os
+import time
 
 load_dotenv() 
 
 stripe.api_key = os.getenv("STRIPE_API_KEY")
 
+# Create cardholder and card
 def create_cardholder():
     cardholder = stripe.issuing.Cardholder.create(
     name="Loki",
@@ -38,5 +40,25 @@ def create_cardholder():
 
 
 
-result = create_cardholder()
-print(result)
+# result = create_cardholder()
+# print(result)
+
+# accept policy for user
+
+def accept_policy():
+    current_timestamp = int(time.time())  # Get current time as Unix timestamp
+    policy_update = stripe.issuing.Cardholder.modify(
+        os.getenv("CARDHOLDER_ID"),
+        individual={
+            "card_issuing": {
+                "user_terms_acceptance": {
+                    "date": current_timestamp,
+                    
+                },
+            },
+        },
+    )
+
+    print(policy_update)
+
+accept_policy()
